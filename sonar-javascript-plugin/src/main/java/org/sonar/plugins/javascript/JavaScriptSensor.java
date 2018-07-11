@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.sonar.sslr.api.RecognitionException;
 import com.sonar.sslr.api.typed.ActionParser;
-import java.io.File;
 import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,8 +75,7 @@ import org.sonar.plugins.javascript.api.visitors.PreciseIssue;
 import org.sonar.plugins.javascript.api.visitors.TreeVisitor;
 import org.sonar.plugins.javascript.api.visitors.TreeVisitorContext;
 import org.sonar.plugins.javascript.minify.MinificationAssessor;
-import org.sonar.squidbridge.ProgressReport;
-import org.sonar.squidbridge.api.AnalysisException;
+import org.sonarsource.analyzer.commons.ProgressReport;
 
 public class JavaScriptSensor implements Sensor {
 
@@ -315,8 +313,8 @@ public class JavaScriptSensor implements Sensor {
     }
 
     Iterable<InputFile> inputFiles = fileSystem.inputFiles(mainFilePredicate);
-    Collection<File> files = StreamSupport.stream(inputFiles.spliterator(), false)
-      .map(InputFile::file)
+    Collection<String> files = StreamSupport.stream(inputFiles.spliterator(), false)
+      .map(InputFile::toString)
       .collect(Collectors.toList());
 
     ProgressReport progressReport = new ProgressReport("Report about progress of Javascript analyzer", TimeUnit.SECONDS.toMillis(10));
@@ -433,6 +431,12 @@ public class JavaScriptSensor implements Sensor {
     }
 
     newIssue.save();
+  }
+
+  static class AnalysisException extends RuntimeException {
+    AnalysisException(String message, Throwable cause) {
+      super(message, cause);
+    }
   }
 
 }

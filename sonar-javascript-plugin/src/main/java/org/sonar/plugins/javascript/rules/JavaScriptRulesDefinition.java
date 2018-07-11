@@ -31,12 +31,12 @@ import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.rules.RuleType;
 import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionAnnotationLoader;
 import org.sonar.api.utils.Version;
 import org.sonar.javascript.checks.CheckList;
 import org.sonar.plugins.javascript.JavaScriptLanguage;
 import org.sonar.plugins.javascript.JsonProfileReader;
 import org.sonar.plugins.javascript.SonarWayProfile;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 public class JavaScriptRulesDefinition implements RulesDefinition {
 
@@ -53,8 +53,10 @@ public class JavaScriptRulesDefinition implements RulesDefinition {
       .createRepository(CheckList.REPOSITORY_KEY, JavaScriptLanguage.KEY)
       .setName(CheckList.REPOSITORY_NAME);
 
-    new AnnotationBasedRulesDefinition(repository, JavaScriptLanguage.KEY)
-      .addRuleClasses(/* don't fail if no SQALE annotations */ false, CheckList.getChecks());
+    RulesDefinitionAnnotationLoader rulesDefinitionAnnotationLoader = new RulesDefinitionAnnotationLoader();
+    for (Class ruleClass : CheckList.getChecks()) {
+      rulesDefinitionAnnotationLoader.load(repository, ruleClass);
+    }
 
     for (NewRule rule : repository.rules()) {
       String metadataKey = rule.key();
@@ -71,6 +73,9 @@ public class JavaScriptRulesDefinition implements RulesDefinition {
         rule.setActivatedByDefault(activatedRuleKeys.contains(rule.key()));
       }
     }
+
+    NewRule commentRegularExpression = repository.rule("CommentRegularExpression");
+    commentRegularExpression.setTemplate(true);
 
     repository.done();
   }

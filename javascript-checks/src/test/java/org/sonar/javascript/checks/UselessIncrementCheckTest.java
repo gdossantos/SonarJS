@@ -20,15 +20,10 @@
 package org.sonar.javascript.checks;
 
 import java.io.File;
-import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.javascript.checks.verifier.JavaScriptCheckVerifier;
-import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class UselessIncrementCheckTest {
-
-  @Rule
-  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
   public void test() {

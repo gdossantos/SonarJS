@@ -1,6 +1,6 @@
 /*
  * SonarQube JavaScript Plugin
- * Copyright (C) 2012-2018 SonarSource SA
+ * Copyright (C) 2011-2018 SonarSource SA
  * mailto:info AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
@@ -17,32 +17,25 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.javascript;
+package org.sonar.javascript.checks.verifier;
 
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import org.sonar.check.Priority;
-import org.sonar.check.Rule;
-import org.sonar.plugins.javascript.api.tree.Tree;
-import org.sonar.plugins.javascript.api.visitors.SubscriptionVisitorCheck;
+import org.junit.Test;
 
-@Rule(
-  key = "subscription",
-  name = "Subscription base visitor check",
-  description = "desc",
-  priority = Priority.MINOR)
-public class SubscriptionBaseVisitorCheck extends SubscriptionVisitorCheck {
+import static org.assertj.core.api.Assertions.assertThat;
 
-  @Override
-  public Set<Tree.Kind> nodesToVisit() {
-    return ImmutableSet.of(
-      Tree.Kind.FOR_IN_STATEMENT
-    );
+
+public class CheckMessageTest {
+
+  @Test
+  public void testFormatDefaultMessage() {
+    CheckMessage message = new CheckMessage(null, "Value is {0,number,integer}, expected value is {1,number,integer}.", 3, 7);
+    assertThat(message.formatDefaultMessage()).isEqualTo("Value is 3, expected value is 7.");
   }
 
-  @Override
-  public void visitNode(Tree tree) {
-    addIssue(tree, "For in statement.");
+  @Test
+  public void testNotFormatMessageWithoutParameters() {
+    CheckMessage message = new CheckMessage(null, "public void main(){."); // This message can't be used as a pattern by the MessageFormat
+    // class
+    assertThat(message.formatDefaultMessage()).isEqualTo("public void main(){.");
   }
-
 }
