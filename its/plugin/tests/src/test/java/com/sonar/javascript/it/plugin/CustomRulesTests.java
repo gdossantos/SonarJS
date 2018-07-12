@@ -63,6 +63,7 @@ public class CustomRulesTests {
     Issue issue = issues.get(0);
     assertThat(issue.line()).isEqualTo(2);
     assertThat(issue.message()).isEqualTo("Function expression.");
+    assertThat(issue.debt()).isEqualTo("5min");
   }
 
   @Test
@@ -74,6 +75,7 @@ public class CustomRulesTests {
     Issue issue = issues.get(0);
     assertThat(issue.line()).isEqualTo(11);
     assertThat(issue.message()).isEqualTo("For in statement.");
+    assertThat(issue.debt()).isEqualTo("10min");
   }
 
 }

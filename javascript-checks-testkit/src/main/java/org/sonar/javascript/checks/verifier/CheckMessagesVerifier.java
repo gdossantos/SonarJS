@@ -129,7 +129,7 @@ public final class CheckMessagesVerifier {
     return this;
   }
 
-  private static AssertionError assertionError(Object expected, Object actual) {
+  private static AssertionError assertionError(@Nullable Object expected, @Nullable Object actual) {
     return new AssertionError("\nExpected: " + expected + "\ngot: " + actual);
   }
 

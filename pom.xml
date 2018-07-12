@@ -79,6 +79,7 @@
     <sonar-orchestrator.version>3.19.0.1641</sonar-orchestrator.version>
     <sonarlint.version>3.0.0.1140</sonarlint.version>
     <sslr.version>1.22</sslr.version>
+    <sslr-squid-bridge.version>2.7.0.377</sslr-squid-bridge.version>
     <gson.version>2.6.2</gson.version>
     <analyzer-commons.version>1.8.0.295</analyzer-commons.version>
 
@@ -109,7 +110,37 @@
         <artifactId>sonar-analyzer-commons</artifactId>
         <version>${analyzer-commons.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.sonarsource.sslr-squid-bridge</groupId>
+        <artifactId>sslr-squid-bridge</artifactId>
+        <version>${sslr-squid-bridge.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.sonar.sslr</groupId>
+            <artifactId>sslr-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.sonar.sslr</groupId>
+            <artifactId>sslr-xpath</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>

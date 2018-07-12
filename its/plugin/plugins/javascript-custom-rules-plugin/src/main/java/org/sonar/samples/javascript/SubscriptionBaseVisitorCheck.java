@@ -25,12 +25,14 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.plugins.javascript.api.tree.Tree;
 import org.sonar.plugins.javascript.api.visitors.SubscriptionVisitorCheck;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 
 @Rule(
   key = "subscription",
   name = "Subscription base visitor check",
   description = "desc",
   priority = Priority.MINOR)
+@SqaleConstantRemediation("10min")
 public class SubscriptionBaseVisitorCheck extends SubscriptionVisitorCheck {
 
   @Override
